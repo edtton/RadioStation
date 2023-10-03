@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Settings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+</head>
+
+<body>
+    <div class="topheader">
+        <header class="top-banner">
+            <a href="" class="logo">
+                <img src="template.jpg">
+            </a>
+
+            <nav class="navbuttons">
+                <ul>
+                    <li><a href="listenerhome.html" class="navbutton">Home</a></li>
+                    <li><a href="editsongpreferences.html" class="navbutton">Edit Song Preferences</a></li>
+                </ul>
+            </nav>
+
+            <input type="text" placeholder="Search for songs or DJs" class="searchbar">
+
+            <div class="usercluster">
+                <img src="template.jpg">
+                <nav class="userbuttons">
+                    <button class="userbutton">
+                        <a href="listenerprofile.html">Profile</a>
+                    </button>
+                    <button class="userbutton">
+                        <a href="listenersettings.html">Settings</a>
+                    </button>
+                </nav>
+            </div>
+        </header>
+    </div>
+
+    <div class="upcomingsongs">
+        THIS IS THE USER SETTINGS PAGE
+    </div>
+
+    <div class="bottomheader">
+        <header class="bottom-banner">
+            <div class="songdetails">
+                <div class="albumimage">
+                    <img src="template.jpg">
+                </div>
+                <div class="songinfo">
+                    <h2>Song Title</h2>
+                    <h4>Artist Name</h4>
+                    <p>"Album Name"</p>
+                </div>
+            </div>
+
+            <div class="songcontrols">
+                <div class="songlabels">
+                    <p class="left">Live Radio</p>
+                    <p class="right">Current DJ: John Doe</p>
+                </div>
+                <div class="player">
+                    <audio controls id="radioPlayer">
+                        <source src="https://playerservices.streamtheworld.com/api/livestream-redirect/WETAFM.mp3"
+                            type=audio/mpeg>
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="songactions">
+                <button class="songaction">Add to Preferences</button>
+                <button class="songaction">Remove from Preferences</button>
+            </div>
+        </header>
+    </div>
+</body>
+
+</html>
