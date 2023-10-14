@@ -15,6 +15,52 @@
             font-family: "Montserrat", serif;
         }
     </style>
+    <script>
+        window.onload = function() {
+            document.getElementById('userpfp').addEventListener('click', function (e) {
+                alert('User profile page not available yet!\nPlease check back soon!');
+            });
+
+            const searchInput = document.getElementById('search');
+            searchInput.addEventListener('keydown', function(event) {
+                if(event.key == 'Enter') {
+                    const searchTerm = searchInput.value.trim(); 
+                    if(searchTerm === "") {
+                        alert("Please enter a value to search for.");
+                    }
+                    else {
+                        alert('Searching for ' + searchTerm);
+                    }
+                }
+            });
+        };
+
+        document.addEventListener("DOMContentLoaded", function(){
+            const dj = {
+                firstName: "Amadeus",
+                lastName: "Mozart",
+                current: "False"
+            };
+
+            const djName = document.getElementById("djName");
+            djName.textContent = "Current DJ: " + dj.firstName + " " + dj.lastName;
+            dj.current = "True";
+        })
+
+        function addPref() {
+            const add = document.getElementById('preferencesadd');
+            add.disabled = true; 
+            const remove = document.getElementById('preferencesremove');
+            remove.disabled = false; 
+        }
+
+        function removePref() {
+            const add = document.getElementById('preferencesadd');
+            add.disabled = false; 
+            const remove = document.getElementById('preferencesremove');
+            remove.disabled = true; 
+        }
+    </script>
 </head>
 
 <body>
@@ -31,10 +77,10 @@
                 </ul>
             </nav>
 
-            <input type="text" placeholder="Search for songs or DJs" class="searchbar">
+            <input type="text" placeholder="Search for songs or DJs" class="searchbar" id="search">
 
             <div class="usercluster">
-                <img src="template.jpg">
+                <img src="template.jpg" id="userpfp">
                 <nav class="userbuttons">
                     <button class="userbutton">
                         <a href="listenerprofile.html">Profile</a>
@@ -53,23 +99,23 @@
         <div class="scrollcontainer">
             <div class="songThumbnail">
                 <img src="template.jpg">
-                <h3>Song Title</h3>
+                <h3 class="songtitle">Song Title</h3>
             </div>
             <div class="songThumbnail">
                 <img src="template.jpg">
-                <h3>Song Title</h3>
+                <h3 class="songtitle">Song Title</h3>
             </div>
             <div class="songThumbnail">
                 <img src="template.jpg">
-                <h3>Song Title</h3>
+                <h3 class="songtitle">Song Title</h3>
             </div>
             <div class="songThumbnail">
                 <img src="template.jpg">
-                <h3>Song Title</h3>
+                <h3 class="songtitle">Song Title</h3>
             </div>
             <div class="songThumbnail">
                 <img src="template.jpg">
-                <h3>Song Title</h3>
+                <h3 class="songtitle">Song Title</h3>
             </div>
         </div>
         <br>
@@ -110,7 +156,7 @@
             <div class="songcontrols">
                 <div class="songlabels">
                     <p class="left">Live Radio</p>
-                    <p class="right">Current DJ: John Doe</p>
+                    <p class="right" id="djName"></p>
                 </div>
                 <div class="player">
                     <audio controls id="radioPlayer">
@@ -122,8 +168,8 @@
             </div>
 
             <div class="songactions">
-                <button class="songaction">Add to Preferences</button>
-                <button class="songaction">Remove from Preferences</button>
+                <button class="songaction" id="preferencesadd" onclick="addPref()">Add to Preferences</button>
+                <button class="songaction" id="preferencesremove" disabled = true onclick="removePref()">Remove from Preferences</button>
             </div>
         </header>
     </div>
