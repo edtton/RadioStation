@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home</title>
+    <%- include('../partials/head'); %>
+    <script src="script.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            background-color: lightgray;
+            font-family: "Montserrat", serif;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            document.getElementById('userpfp').addEventListener('click', function (e) {
+                alert('User profile page not available yet!\nPlease check back soon!');
+            });
+
+            const searchInput = document.getElementById('search');
+            searchInput.addEventListener('keydown', function(event) {
+                if(event.key == 'Enter') {
+                    const searchTerm = searchInput.value.trim(); 
+                    if(searchTerm === "") {
+                        alert("Please enter a value to search for.");
+                    }
+                    else {
+                        alert('Searching for ' + searchTerm);
+                    }
+                }
+            });
+        };
+
+        document.addEventListener("DOMContentLoaded", function(){
+            const dj = {
+                firstName: "Amadeus",
+                lastName: "Mozart",
+                current: "False"
+            };
+
+            const djName = document.getElementById("djName");
+            djName.textContent = "Current DJ: " + dj.firstName + " " + dj.lastName;
+            dj.current = "True";
+        })
+
+        function addPref() {
+            const add = document.getElementById('preferencesadd');
+            add.disabled = true; 
+            const remove = document.getElementById('preferencesremove');
+            remove.disabled = false; 
+        }
+
+        function removePref() {
+            const add = document.getElementById('preferencesadd');
+            add.disabled = false; 
+            const remove = document.getElementById('preferencesremove');
+            remove.disabled = true; 
+        }
+    </script>
+</head>
+
+<body>
+   
+    <%- include('../partials/header'); %>
+
+    <div class="upcomingsongs">
+        <h2>Upcoming Songs You Might Like:</h2>
+        <div class="scrollcontainer">
+            <div class="songThumbnail">
+                <img src="/images/template.jpg">
+                <h3 class="songtitle">Song Title</h3>
+            </div>
+            <div class="songThumbnail">
+                <img src="/images/template.jpg">
+                <h3 class="songtitle">Song Title</h3>
+            </div>
+            <div class="songThumbnail">
+                <img src="/images/template.jpg">
+                <h3 class="songtitle">Song Title</h3>
+            </div>
+            <div class="songThumbnail">
+                <img src="/images/template.jpg">
+                <h3 class="songtitle">Song Title</h3>
+            </div>
+            <div class="songThumbnail">
+                <img src="/images/template.jpg">
+                <h3 class="songtitle">Song Title</h3>
+            </div>
+        </div>
+        <br>
+        <h2>Upcoming DJs You Might Like:</h2>
+        <div class="djcontainer">
+            <div class="DJthumbnail">
+                <img src="/images/template.jpg">
+                <h4>DJ Name</h4>
+            </div>
+            <div class="DJthumbnail">
+                <img src="/images/template.jpg">
+                <h4>DJ Name</h4>
+            </div>
+            <div class="DJthumbnail">
+                <img src="/images/template.jpg">
+                <h4>DJ Name</h4>
+            </div>
+            <div class="DJthumbnail">
+                <img src="/images/template.jpg">
+                <h4>DJ Name</h4>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer'); %>
+</body>
+
+</html>

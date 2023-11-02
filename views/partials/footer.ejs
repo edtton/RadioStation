@@ -1,0 +1,33 @@
+<div class="bottomheader">
+    <header class="bottom-banner">
+        <div class="songdetails">
+            <div class="albumimage">
+                <img src="/images/template.jpg">
+            </div>
+            <div class="songinfo">
+                <h2>Song Title</h2>
+                <h4>Artist Name</h4>
+                <p>"Album Name"</p>
+            </div>
+        </div>
+
+        <div class="songcontrols">
+            <div class="songlabels">
+                <p class="left">Live Radio</p>
+                <p class="right" id="djName"></p>
+            </div>
+            <div class="player">
+                <audio controls id="radioPlayer">
+                    <source src="https://playerservices.streamtheworld.com/api/livestream-redirect/WETAFM.mp3"
+                        type=audio/mpeg>
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+
+        <div class="songactions">
+            <button class="songaction" id="preferencesadd" onclick="addPref()">Add to Preferences</button>
+            <button class="songaction" id="preferencesremove" disabled = true onclick="removePref()">Remove from Preferences</button>
+        </div>
+    </header>
+</div>
