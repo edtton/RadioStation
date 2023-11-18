@@ -70,8 +70,10 @@
         })
             .then(response => {
                 if (response.ok) {
+                    location.reload();
                     return response.json();
-                } else {
+                } 
+                else {
                     return response.json().then(error => Promise.reject(error));
                 }
             })
@@ -83,6 +85,7 @@
                 console.error('Error adding preferred song:', error);
                 alert(`Error: ${error.message}`); // Display an error message to the user
             });
+            
     }
 
     function removePref() {
@@ -96,6 +99,7 @@
         })
             .then(response => {
                 if (response.ok) {
+                    // location.reload();
                     return response.json();
                 } 
                 else {
@@ -110,22 +114,6 @@
                 console.error('Error removing song from preferences:', error);
                 alert(`Error: ${error.message}`); // Display an error message to the user
             });
+            
     }
-    // function addPref() {
-    //     // Now, send the current song's ID to the server
-    //     fetch('/addPreferredSong', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ songId: currentSongId }),  // Use 'songId' as the key
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log(data.message);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error adding preferred song:', error);
-    //         });
-    // }
 </script>

@@ -29,7 +29,6 @@
                             );
 
                             const songId = data.name;
-                            console.log('Song ID:', songId);
 
                             if (confirmation) {
                                 try {
@@ -43,23 +42,15 @@
                                         }),
                                     });
 
-                                    // const result = await response.json();
-
                                     if (response.ok) {
                                         const result = await response.json();
                                         alert(result.message);
+                                        location.reload();
                                     } 
                                     else {
                                         const result = await response.json();
                                         alert(`Error: ${result.message}`);
                                     }
-
-                                    // if (result.message) {
-                                    //     alert('Song added to preferences!');
-                                    // } 
-                                    // else {
-                                    //     alert('Failed to add song to preferences.');
-                                    // }
                                 }
                                 catch (error) {
                                     console.error('Error adding song to preferences:', error);
@@ -98,35 +89,5 @@
                 console.error('Error fetching random DJ:', error);
             });
     });
-
-
-    // function addPref() {
-    //     // Assuming you have access to the current song ID in your script
-    //     const songId = getSessionSongId();
-
-    //     // Now, send the songId to the server
-    //     fetch('/addPreferredSong', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ songId }),
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log(data.message);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error adding preferred song:', error);
-    //         });
-    // }
-
-
-    // function removePref() {
-    //     const add = document.getElementById('preferencesadd');
-    //     add.disabled = false;
-    //     const remove = document.getElementById('preferencesremove');
-    //     remove.disabled = true;
-    // }
 
 </script>
