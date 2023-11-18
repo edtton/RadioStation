@@ -4,43 +4,188 @@
 <head>
     <title>Song Preferences</title>
     <%- include('../partials/head'); %>
+        <%- include('../partials/script'); %>
+            <style>
+                body {
+                    display: flex;
+                    flex-direction: column;
+                    background-color: lightgray;
+                    font-family: "Montserrat", serif;
+                }
+
+                /* Add these styles to your existing CSS or create a new style tag in your EJS file */
+                .scrollcontainer {
+                    display: flex;
+                    overflow-x: scroll;
+                    white-space: nowrap;
+                }
+
+                .songCard {
+                    margin-right: 15px;
+                    padding: 10px;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    background-color: #fff;
+                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                    /* Set a fixed height for each song card */
+                    height: 120px;
+                    /* Adjust width based on screen size with a minimum width */
+                    min-width: 200px;
+                    overflow: hidden;
+                    position: relative;
+                }
+
+                .songInfo {
+                    text-align: center;
+                }
+
+                /* Ensure that text within songInfo stays within the card */
+                .artistName {
+                    overflow: hidden;
+                    text-overflow: clip;
+                }
+
+                .songTitle {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: pre-wrap;
+                    word-break: break-all;
+                }
+
+                /* Adjust these styles to handle long artist names */
+                .artistName {
+                    white-space: nowrap;
+                }
+
+                /* Display full artist name on hover */
+                .artistName:hover::before {
+                    content: attr(title);
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                    background: #fff;
+                    padding: 5px;
+                    border: 1px solid #ddd;
+                    border-top: none;
+                    z-index: 1;
+                    text-align: center;
+                }
+
+                /* Media query for smaller screens */
+                @media screen and (max-width: 600px) {
+                    .songCard {
+                        min-width: 150px;
+                        /* Adjust minimum width for smaller screens */
+                    }
+                }
+
+                /* Media query for even smaller screens */
+                @media screen and (max-width: 400px) {
+                    .songCard {
+                        min-width: 120px;
+                        /* Adjust minimum width for even smaller screens */
+                    }
+                }
+            </style>
 </head>
 
 <body>
     <%- include('../partials/header'); %>
 
-    <div class="preferences">
-        <div class="upcomingsongs">
-            <h2>Your Song Preferences:</h2>
-            <div class="scrollcontainer">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
-                <img src="/images/template.jpg">
+        <div class="preferences">
+            <div class="upcomingsongs">
+                <h2>Your Song Preferences:</h2>
+                <div class="scrollcontainer" id="prefContainer">
+
+                </div>
             </div>
         </div>
-    </div>
 
-    <%- include('../partials/footer'); %>
+        <%- include('../partials/footer'); %>
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+            <script src="script.js"></script>
+            <%- include('../partials/script'); %>
+                <script>
+                    $(document).ready(function () {
+                        $.ajax({
+                            url: '/getUserPreferences',
+                            method: 'GET',
+                            success: function (data) {
+                                if (data && data.length > 0) {
+                                    const prefContainer = $('#prefContainer');
+                                    // Clear the container before adding new songs
+                                    prefContainer.empty();
+
+                                    data.forEach(song => {
+                                        const songCard = $('<div>').addClass('songCard').attr('data-song-id', song._id); // Set data-song-id attribute
+                                        const songInfo = $('<div>').addClass('songInfo');
+                                        const songTitle = $('<h3>').text(song.name);
+                                        const artistName = $('<p>')
+                                            .text(song.artist)
+                                            .attr('title', song.artist);
+
+                                        songInfo.append(songTitle, artistName);
+                                        songCard.append(songInfo);
+                                        prefContainer.append(songCard);
+                                    });
+                                } else {
+                                    console.error('No preferred songs found.');
+                                }
+                            },
+                            error: function (error) {
+                                console.error('Error fetching preferred songs:', error);
+                            }
+                        });
+                    });
+
+                    // Add click event listeners to each song card
+                    $(document).ready(function () {
+                        const prefContainer = $('#prefContainer');
+
+                        // Attach click event listener to each song card
+                        prefContainer.on('click', '.songCard', function () {
+                            const songId = $(this).attr('data-song-id');
+                            confirmRemoveFromPreferences(songId);
+                        });
+                    });
+
+                    function confirmRemoveFromPreferences(songId) {
+                        const confirmation = window.confirm('Are you sure you want to remove this song from preferences?');
+
+                        if (confirmation) {
+                            // User confirmed, call removePref function
+                            removePref(songId);
+                        }
+                    }
+
+                    function removePref(songId) {
+                        fetch('/removePreferredSong', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ songId }),
+                        })
+                            .then(response => {
+                                if (response.ok) {
+                                    return response.json();
+                                }
+                                else {
+                                    return response.json().then(error => Promise.reject(error));
+                                }
+                            })
+                            .then(data => {
+                                console.log(data.message);
+                                alert(data.message); // Display a message to the user
+                            })
+                            .catch(error => {
+                                console.error('Error removing song from preferences:', error);
+                                alert(`Error: ${error.message}`); // Display an error message to the user
+                            });
+                    }
+
+                </script>
 </body>
 
 </html>

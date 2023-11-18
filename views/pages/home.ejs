@@ -4,114 +4,180 @@
 <head>
     <title>Home</title>
     <%- include('../partials/head'); %>
-    <script src="script.js"></script>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            background-color: lightgray;
-            font-family: "Montserrat", serif;
-        }
-    </style>
-    <script>
-        window.onload = function() {
-            document.getElementById('userpfp').addEventListener('click', function (e) {
-                alert('User profile page not available yet!\nPlease check back soon!');
-            });
+        <script src="script.js"></script>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                background-color: lightgray;
+                font-family: "Montserrat", serif;
+            }
 
-            const searchInput = document.getElementById('search');
-            searchInput.addEventListener('keydown', function(event) {
-                if(event.key == 'Enter') {
-                    const searchTerm = searchInput.value.trim(); 
-                    if(searchTerm === "") {
-                        alert("Please enter a value to search for.");
-                    }
-                    else {
-                        alert('Searching for ' + searchTerm);
-                    }
+            /* Add these styles to your existing CSS or create a new style tag in your EJS file */
+            .scrollcontainer {
+                display: flex;
+                overflow-x: scroll;
+                white-space: nowrap;
+            }
+
+            .songCard {
+                margin-right: 15px;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                background-color: #fff;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                /* Set a fixed height for each song card */
+                height: 120px;
+                /* Adjust width based on screen size with a minimum width */
+                min-width: 200px;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .songInfo {
+                text-align: center;
+            }
+
+            /* Ensure that text within songInfo stays within the card */
+            .artistName {
+                overflow: hidden;
+                text-overflow: clip;
+            }
+
+            .songTitle {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: pre-wrap;
+                word-break: break-all;
+            }
+
+            /* Adjust these styles to handle long artist names */
+            .artistName {
+                white-space: nowrap;
+            }
+
+            /* Display full artist name on hover */
+            .artistName:hover::before {
+                content: attr(title);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #fff;
+                padding: 5px;
+                border: 1px solid #ddd;
+                border-top: none;
+                z-index: 1;
+                text-align: center;
+            }
+
+            /* Media query for smaller screens */
+            @media screen and (max-width: 600px) {
+                .songCard {
+                    min-width: 150px;
+                    /* Adjust minimum width for smaller screens */
                 }
-            });
-        };
+            }
 
-        document.addEventListener("DOMContentLoaded", function(){
-            const dj = {
-                firstName: "Amadeus",
-                lastName: "Mozart",
-                current: "False"
-            };
-
-            const djName = document.getElementById("djName");
-            djName.textContent = "Current DJ: " + dj.firstName + " " + dj.lastName;
-            dj.current = "True";
-        })
-
-        function addPref() {
-            const add = document.getElementById('preferencesadd');
-            add.disabled = true; 
-            const remove = document.getElementById('preferencesremove');
-            remove.disabled = false; 
-        }
-
-        function removePref() {
-            const add = document.getElementById('preferencesadd');
-            add.disabled = false; 
-            const remove = document.getElementById('preferencesremove');
-            remove.disabled = true; 
-        }
-    </script>
+            /* Media query for even smaller screens */
+            @media screen and (max-width: 400px) {
+                .songCard {
+                    min-width: 120px;
+                    /* Adjust minimum width for even smaller screens */
+                }
+            }
+        </style>
+        <%- include('../partials/script'); %>
 </head>
 
 <body>
-   
+
     <%- include('../partials/header'); %>
 
-    <div class="upcomingsongs">
-        <h2>Upcoming Songs You Might Like:</h2>
-        <div class="scrollcontainer">
-            <div class="songThumbnail">
-                <img src="/images/template.jpg">
-                <h3 class="songtitle">Song Title</h3>
-            </div>
-            <div class="songThumbnail">
-                <img src="/images/template.jpg">
-                <h3 class="songtitle">Song Title</h3>
-            </div>
-            <div class="songThumbnail">
-                <img src="/images/template.jpg">
-                <h3 class="songtitle">Song Title</h3>
-            </div>
-            <div class="songThumbnail">
-                <img src="/images/template.jpg">
-                <h3 class="songtitle">Song Title</h3>
-            </div>
-            <div class="songThumbnail">
-                <img src="/images/template.jpg">
-                <h3 class="songtitle">Song Title</h3>
-            </div>
-        </div>
-        <br>
-        <h2>Upcoming DJs You Might Like:</h2>
-        <div class="djcontainer">
-            <div class="DJthumbnail">
-                <img src="/images/template.jpg">
-                <h4>DJ Name</h4>
-            </div>
-            <div class="DJthumbnail">
-                <img src="/images/template.jpg">
-                <h4>DJ Name</h4>
-            </div>
-            <div class="DJthumbnail">
-                <img src="/images/template.jpg">
-                <h4>DJ Name</h4>
-            </div>
-            <div class="DJthumbnail">
-                <img src="/images/template.jpg">
-                <h4>DJ Name</h4>
-            </div>
-        </div>
-    </div>
+        <div class="upcomingsongs">
+            <h2>Upcoming Songs You Might Like:</h2>
+            <div class="scrollcontainer" id="songContainer">
 
-    <%- include('../partials/footer'); %>
+            </div>
+            <br>
+            <h2>Upcoming DJs You Might Like:</h2>
+            <div class="scrollcontainer" id="djContainer">
+
+            </div>
+        </div>
+
+        <%- include('../partials/footer'); %>
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+            <script src="script.js"></script>
+            <%- include('../partials/script'); %>
+                <script>
+                    // Fetch all songs and populate the song container
+                    $(document).ready(function () {
+                        $.ajax({
+                            url: '/getAllSongs',
+                            method: 'GET',
+                            success: function (data) {
+                                if (data && data.length > 0) {
+                                    const songContainer = $('#songContainer');
+                                    // Clear the container before adding new songs
+                                    songContainer.empty();
+
+                                    data.forEach(song => {
+                                        const songCard = $('<div>').addClass('songCard');
+                                        const songInfo = $('<div>').addClass('songInfo');
+                                        const songTitle = $('<h3>').text(song.name);
+                                        //const artistName = $('<p>').text(song.artist);
+                                        const artistName = $('<p>')
+                                            .text(song.artist)
+                                            .attr('title', song.artist);
+
+                                        songInfo.append(songTitle, artistName);
+                                        songCard.append(songInfo);
+
+                                        songContainer.append(songCard);
+                                    });
+                                }
+                                else {
+                                    console.error('No songs found.');
+                                }
+                            },
+                            error: function (error) {
+                                console.error('Error fetching songs:', error);
+                            }
+                        });
+                    });
+
+                    $(document).ready(function () {
+                        $.ajax({
+                            url: '/getAllDJs',
+                            method: 'GET',
+                            success: function (data) {
+                                if (data && data.length > 0) {
+                                    const djContainer = $('#djContainer');
+                                    // Clear the container before adding new songs
+                                    djContainer.empty();
+
+                                    data.forEach(dj => {
+                                        const songCard = $('<div>').addClass('songCard');
+                                        const songInfo = $('<div>').addClass('songInfo');
+                                        const songTitle = $('<h3>').text(dj.name);
+
+                                        songInfo.append(songTitle);
+                                        songCard.append(songInfo);
+                                        djContainer.append(songCard);
+                                    });
+                                }
+                                else {
+                                    console.error('No DJs found.');
+                                }
+                            },
+                            error: function (error) {
+                                console.error('Error fetching DJs:', error);
+                            }
+                        });
+                    });   
+                </script>
 </body>
 
 </html>
